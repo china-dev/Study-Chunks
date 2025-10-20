@@ -1,4 +1,4 @@
-# Chunks API
+# Study Chunks API
 
 API de uma plataforma de aprendizado baseada em micro-conteúdos (chunks). O objetivo é fornecer uma estrutura de backend robusta para gerenciar usuários, disciplinas, módulos de estudo, progresso e gamificação.
 
@@ -35,9 +35,11 @@ Siga os passos abaixo para configurar e executar o projeto localmente.
 
 ### 1. Clone o Repositório
 
+Assumindo que o nome do diretório do repositório seja `study-chunks`:
+
 ```bash
 git clone <url-do-seu-repositorio>
-cd chunks
+cd study-chunks
 ```
 
 ### 2. Instale as Dependências
