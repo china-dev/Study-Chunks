@@ -1,26 +1,33 @@
-import { Controller, Patch, Param, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ModuleServiceUpdate } from '../service/module.service.update';
-import { UpdateModuleDto } from '../dto/update-module.dto';
-import { ModuleEntity } from '../entity/module.entity';
+import { Body, Controller, HttpCode, HttpStatus, Param, Patch, Req } from "@nestjs/common";
+import type { Request } from 'express';
+import { ROUTE } from "src/commons/constants/url.sistema";
+import { MessageSystem } from "src/commons/message/message.system";
+import { Result } from "src/commons/message/message";
+import { ModuleRequestDto } from "../dto/request/module.request.dto";
+import { ModuleServiceUpdate } from "../service/module.service.update";
+import { ModuleResponseDto } from "../dto/response/module.response.dto";
+import { ModuleConverterDto } from "../dto/converter/module.converter.dto";
 
-@ApiTags('Modules')
-@Controller('modules')
+@Controller(ROUTE.MODULES.BASE)
 export class ModuleControllerUpdate {
   constructor(private readonly moduleServiceUpdate: ModuleServiceUpdate) {}
 
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update a module' })
-  @ApiResponse({
-    status: 200,
-    description: 'The module has been successfully updated.',
-    type: ModuleEntity,
-  })
-  @ApiResponse({ status: 404, description: 'Module not found.' })
+  @HttpCode(HttpStatus.OK)
+  @Patch(ROUTE.MODULES.UPDATE)
   async update(
-    @Param('id') id: string,
-    @Body() updateModuleDto: UpdateModuleDto,
-  ): Promise<ModuleEntity> {
-    return await this.moduleServiceUpdate.update(+id, updateModuleDto);
+    @Req() req: Request,
+    @Param('moduleId') moduleId: number,
+    @Body() moduleRequest: ModuleRequestDto
+  ): Promise<Result<ModuleResponseDto>> {
+    const updatedModule = await this.moduleServiceUpdate.update(moduleId, moduleRequest);
+    const responseDto = ModuleConverterDto.toModuleResponse(updatedModule);
+
+    return MessageSystem.showMessage(
+      HttpStatus.OK,
+      'Módulo atualizado com sucesso!',
+      responseDto,
+      req.path,
+      null
+    );
   }
 }

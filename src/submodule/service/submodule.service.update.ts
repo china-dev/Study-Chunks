@@ -14,11 +14,12 @@ export class SubmoduleServiceUpdate {
 
   async update(id: number, submoduleRequestDto: SubmoduleRequestDto): Promise<SubmoduleEntity> {
     const submoduleToUpdate = SubmoduleConverterDto.toSubmoduleEntity(submoduleRequestDto);
-    
-    const submodule = await this.submoduleRepository.preload({
-      submoduleId: id,
-      ...submoduleToUpdate,
-    });
+
+    // The ID from the URL parameter is the source of truth.
+    // Assign it to the entity before preloading.
+    submoduleToUpdate.submoduleId = id;
+
+    const submodule = await this.submoduleRepository.preload(submoduleToUpdate);
 
     if (!submodule) {
       throw new NotFoundException(`Submódulo com ID ${id} não encontrado.`);

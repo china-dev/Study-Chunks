@@ -1,5 +1,6 @@
 import { BaseEntity } from "src/commons/entity/base.entity";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ModuleEntity } from "src/modules/entity/module.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('BD2_DISCIPLINES')
 export class DisciplineEntity extends BaseEntity{
@@ -13,8 +14,11 @@ export class DisciplineEntity extends BaseEntity{
   @Column({name: 'DESCRIPTION', type: 'varchar2', length: 255})
   description: string;
 
+  @OneToMany(() => ModuleEntity, module => module.discipline)
+  modules: ModuleEntity[];
+
   constructor(data: Partial<DisciplineEntity> = {}) {
     super();
     Object.assign(this, data);
   }
-} 
+}

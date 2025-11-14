@@ -13,7 +13,7 @@ export class ModuleServiceDelete {
   async remove(id: number): Promise<void> {
     const result = await this.moduleRepository.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException(`Module with ID ${id} not found`);
+      throw new NotFoundException(`Módulo com ID ${id} não encontrado.`);
     }
   }
 }

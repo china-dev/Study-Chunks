@@ -13,8 +13,7 @@ export class ModuleConverterDto {
     }
     moduleEntity.title = moduleRequest.title;
     moduleEntity.description = moduleRequest.description;
-    
-    // Associate with discipline
+
     const discipline = new DisciplineEntity();
     discipline.disciplineId = moduleRequest.disciplineId;
     moduleEntity.discipline = discipline;

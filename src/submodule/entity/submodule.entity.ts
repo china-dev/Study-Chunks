@@ -1,4 +1,3 @@
-import { BaseEntity } from 'src/commons/entity/base.entity';
 import { ModuleEntity } from 'src/modules/entity/module.entity';
 import {
   Column,
@@ -9,14 +8,14 @@ import {
 } from 'typeorm';
 
 @Entity('BD2_SUBMODULES')
-export class SubmoduleEntity extends BaseEntity {
+export class SubmoduleEntity {
   @PrimaryGeneratedColumn('increment', { name: 'SUBMODULE_ID', type: 'number' })
   submoduleId: number;
 
   @Column({ name: 'TITLE', type: 'varchar2', length: 100 })
   title: string;
 
-  @Column({ name: 'EXPLANATION', type: 'text' })
+  @Column({ name: 'EXPLANATION', type: 'clob' })
   explanation: string;
 
   @ManyToOne(() => ModuleEntity, (module) => module.submodules)
@@ -24,7 +23,6 @@ export class SubmoduleEntity extends BaseEntity {
   module: ModuleEntity;
 
   constructor(data: Partial<SubmoduleEntity> = {}) {
-    super();
     Object.assign(this, data);
   }
 }

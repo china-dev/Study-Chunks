@@ -3,7 +3,6 @@ import { DisciplineRequestDto } from '../request/discipline.request.dto';
 import { DisciplineEntity } from 'src/discipline/entity/discipline.entity';
 import { DisciplineResponseDto } from '../response/discipline.response.dto';
 
-
 export class DisciplineConverterDto {
   static toDiscipline(disciplineRequest: DisciplineRequestDto) {
     const disciplineEntity = new DisciplineEntity();

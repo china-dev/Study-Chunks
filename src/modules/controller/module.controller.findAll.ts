@@ -1,21 +1,28 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ModuleServiceFindAll } from '../service/module.service.findAll';
-import { ModuleEntity } from '../entity/module.entity';
+import { Controller, Get, HttpCode, HttpStatus, Req } from "@nestjs/common";
+import type { Request } from 'express';
+import { ROUTE } from "src/commons/constants/url.sistema";
+import { MessageSystem } from "src/commons/message/message.system";
+import { Result } from "src/commons/message/message";
+import { ModuleServiceFindAll } from "../service/module.service.findAll";
+import { ModuleResponseDto } from "../dto/response/module.response.dto";
+import { ModuleConverterDto } from "../dto/converter/module.converter.dto";
 
-@ApiTags('Modules')
-@Controller('modules')
+@Controller(ROUTE.MODULES.BASE)
 export class ModuleControllerFindAll {
   constructor(private readonly moduleServiceFindAll: ModuleServiceFindAll) {}
 
-  @Get()
-  @ApiOperation({ summary: 'List all modules' })
-  @ApiResponse({
-    status: 200,
-    description: 'Return all modules.',
-    type: [ModuleEntity],
-  })
-  async findAll(): Promise<ModuleEntity[]> {
-    return await this.moduleServiceFindAll.findAll();
+  @HttpCode(HttpStatus.OK)
+  @Get(ROUTE.MODULES.LIST)
+  async findAll(@Req() req: Request): Promise<Result<ModuleResponseDto[]>> {
+    const modules = await this.moduleServiceFindAll.findAll();
+    const responseDto = ModuleConverterDto.toListModuleResponse(modules);
+
+    return MessageSystem.showMessage(
+      HttpStatus.OK,
+      'Módulos listados com sucesso!',
+      responseDto,
+      req.path,
+      null
+    );
   }
 }

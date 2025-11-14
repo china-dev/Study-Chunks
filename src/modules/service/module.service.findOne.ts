@@ -16,7 +16,7 @@ export class ModuleServiceFindOne {
       relations: ['discipline'],
     });
     if (!module) {
-      throw new NotFoundException(`Module with ID ${id} not found`);
+      throw new NotFoundException(`Módulo com ID ${id} não encontrado.`);
     }
     return module;
   }

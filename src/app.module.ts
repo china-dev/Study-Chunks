@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import { DisciplineModule } from './discipline/discipline.module';
+import { ModulesModule } from './modules/modules.module';
+import { SubmoduleModule } from './submodule/submodule.module';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { DisciplineModule } from './discipline/discipline.module';
       }),
     }),
     DisciplineModule,
+    ModulesModule,
+    SubmoduleModule,
   ],
 })
 export class AppModule {}

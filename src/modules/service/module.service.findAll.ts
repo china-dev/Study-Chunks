@@ -11,6 +11,11 @@ export class ModuleServiceFindAll {
   ) {}
 
   async findAll(): Promise<ModuleEntity[]> {
-    return await this.moduleRepository.find({ relations: ['discipline'] });
+    return await this.moduleRepository.find({
+      relations: ['discipline'],
+      order: {
+        moduleId: 'ASC'
+      }
+    });
   }
 }
